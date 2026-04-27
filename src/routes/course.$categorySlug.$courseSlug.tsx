@@ -214,7 +214,7 @@ function CoursePage() {
           ) : (
             <button
               type="button"
-              onClick={() => completeCourse(id)}
+              onClick={handleComplete}
               className="px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:scale-[1.02] transition-transform"
             >
               Mark complete
