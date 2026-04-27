@@ -8,6 +8,10 @@ const tintMap: Record<Category["tint"], string> = {
   money: "bg-tint-money",
   admin: "bg-tint-admin",
   life: "bg-tint-life",
+  home: "bg-tint-home",
+  tech: "bg-tint-tech",
+  style: "bg-tint-style",
+  career: "bg-tint-career",
 };
 
 export function CategoryCard({ category }: { category: Category }) {

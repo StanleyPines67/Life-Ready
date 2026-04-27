@@ -52,6 +52,10 @@
   --color-tint-money: var(--tint-money);
   --color-tint-admin: var(--tint-admin);
   --color-tint-life: var(--tint-life);
+  --color-tint-home: var(--tint-home);
+  --color-tint-tech: var(--tint-tech);
+  --color-tint-style: var(--tint-style);
+  --color-tint-career: var(--tint-career);
   --font-display: "Fraunces", "Cormorant Garamond", Georgia, serif;
   --font-sans: "Inter Tight", "Inter", system-ui, sans-serif;
   --color-chart-1: var(--chart-1);

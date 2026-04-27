@@ -36,6 +36,10 @@ const tintMap: Record<string, string> = {
   money: "bg-tint-money",
   admin: "bg-tint-admin",
   life: "bg-tint-life",
+  home: "bg-tint-home",
+  tech: "bg-tint-tech",
+  style: "bg-tint-style",
+  career: "bg-tint-career",
 };
 
 function CategoryPage() {
