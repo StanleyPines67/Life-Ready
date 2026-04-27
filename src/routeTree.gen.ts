@@ -9,11 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SuggestionsRouteImport } from './routes/suggestions'
+import { Route as RewardsRouteImport } from './routes/rewards'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CategoryCategorySlugRouteImport } from './routes/category.$categorySlug'
 import { Route as CourseCategorySlugCourseSlugRouteImport } from './routes/course.$categorySlug.$courseSlug'
 
+const SuggestionsRoute = SuggestionsRouteImport.update({
+  id: '/suggestions',
+  path: '/suggestions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RewardsRoute = RewardsRouteImport.update({
+  id: '/rewards',
+  path: '/rewards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LibraryRoute = LibraryRouteImport.update({
   id: '/library',
   path: '/library',
@@ -39,12 +51,16 @@ const CourseCategorySlugCourseSlugRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/library': typeof LibraryRoute
+  '/rewards': typeof RewardsRoute
+  '/suggestions': typeof SuggestionsRoute
   '/category/$categorySlug': typeof CategoryCategorySlugRoute
   '/course/$categorySlug/$courseSlug': typeof CourseCategorySlugCourseSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/library': typeof LibraryRoute
+  '/rewards': typeof RewardsRoute
+  '/suggestions': typeof SuggestionsRoute
   '/category/$categorySlug': typeof CategoryCategorySlugRoute
   '/course/$categorySlug/$courseSlug': typeof CourseCategorySlugCourseSlugRoute
 }
@@ -52,6 +68,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/library': typeof LibraryRoute
+  '/rewards': typeof RewardsRoute
+  '/suggestions': typeof SuggestionsRoute
   '/category/$categorySlug': typeof CategoryCategorySlugRoute
   '/course/$categorySlug/$courseSlug': typeof CourseCategorySlugCourseSlugRoute
 }
@@ -60,18 +78,24 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/library'
+    | '/rewards'
+    | '/suggestions'
     | '/category/$categorySlug'
     | '/course/$categorySlug/$courseSlug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/library'
+    | '/rewards'
+    | '/suggestions'
     | '/category/$categorySlug'
     | '/course/$categorySlug/$courseSlug'
   id:
     | '__root__'
     | '/'
     | '/library'
+    | '/rewards'
+    | '/suggestions'
     | '/category/$categorySlug'
     | '/course/$categorySlug/$courseSlug'
   fileRoutesById: FileRoutesById
@@ -79,12 +103,28 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LibraryRoute: typeof LibraryRoute
+  RewardsRoute: typeof RewardsRoute
+  SuggestionsRoute: typeof SuggestionsRoute
   CategoryCategorySlugRoute: typeof CategoryCategorySlugRoute
   CourseCategorySlugCourseSlugRoute: typeof CourseCategorySlugCourseSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/suggestions': {
+      id: '/suggestions'
+      path: '/suggestions'
+      fullPath: '/suggestions'
+      preLoaderRoute: typeof SuggestionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rewards': {
+      id: '/rewards'
+      path: '/rewards'
+      fullPath: '/rewards'
+      preLoaderRoute: typeof RewardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/library': {
       id: '/library'
       path: '/library'
@@ -119,6 +159,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LibraryRoute: LibraryRoute,
+  RewardsRoute: RewardsRoute,
+  SuggestionsRoute: SuggestionsRoute,
   CategoryCategorySlugRoute: CategoryCategorySlugRoute,
   CourseCategorySlugCourseSlugRoute: CourseCategorySlugCourseSlugRoute,
 }

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getCategory, getCourse } from "@/data/courses";
 import { useProgress } from "@/hooks/useProgress";
+import { useRewards } from "@/hooks/useRewards";
 
 export const Route = createFileRoute("/course/$categorySlug/$courseSlug")({
   loader: ({ params }) => {
@@ -36,6 +37,7 @@ function CoursePage() {
   const { category, course } = Route.useLoaderData();
   const id = `${category.slug}/${course.slug}`;
   const { completedSteps, completedCourses, toggleStep, completeCourse, resetCourse } = useProgress();
+  const { awardForCourse } = useRewards();
   const stepsDone = completedSteps[id] ?? [];
   const isDone = completedCourses.includes(id);
 
@@ -44,6 +46,11 @@ function CoursePage() {
   const quizCorrect = quizPick === course.quiz.correctIndex;
 
   const allStepsChecked = stepsDone.length === course.steps.length;
+
+  const handleComplete = () => {
+    completeCourse(id);
+    awardForCourse(id, course.featured);
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -65,12 +72,23 @@ function CoursePage() {
             <span>{course.steps.length} steps</span>
           </div>
           <h1 className="mt-3 font-display text-4xl md:text-5xl tracking-tight leading-[1.05]">
+            {course.featured && <span aria-label="essential" title="Essential">⭐ </span>}
             {course.title}
           </h1>
+          {course.tier && (
+            <p className="mt-3 inline-block text-xs uppercase tracking-[0.18em] text-muted-foreground bg-secondary px-3 py-1 rounded-full">
+              {course.tier} tier
+            </p>
+          )}
         </header>
 
+        {/* Hook */}
+        <section className="mt-8 rounded-3xl bg-primary-soft border border-primary/20 p-6">
+          <p className="font-display text-xl leading-snug">{course.hook}</p>
+        </section>
+
         {/* Why */}
-        <section className="mt-10 rounded-3xl bg-secondary/60 border border-border/70 p-6">
+        <section className="mt-6 rounded-3xl bg-secondary/60 border border-border/70 p-6">
           <h2 className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Why this matters</h2>
           <p className="mt-3 leading-relaxed">{course.why}</p>
         </section>
@@ -196,7 +214,7 @@ function CoursePage() {
           ) : (
             <button
               type="button"
-              onClick={() => completeCourse(id)}
+              onClick={handleComplete}
               className="px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:scale-[1.02] transition-transform"
             >
               Mark complete
