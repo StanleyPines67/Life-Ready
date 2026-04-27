@@ -3,6 +3,7 @@ import { useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getCategory, getCourse } from "@/data/courses";
 import { useProgress } from "@/hooks/useProgress";
+import { useRewards } from "@/hooks/useRewards";
 
 export const Route = createFileRoute("/course/$categorySlug/$courseSlug")({
   loader: ({ params }) => {
