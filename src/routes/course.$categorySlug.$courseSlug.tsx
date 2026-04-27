@@ -37,6 +37,7 @@ function CoursePage() {
   const { category, course } = Route.useLoaderData();
   const id = `${category.slug}/${course.slug}`;
   const { completedSteps, completedCourses, toggleStep, completeCourse, resetCourse } = useProgress();
+  const { awardForCourse } = useRewards();
   const stepsDone = completedSteps[id] ?? [];
   const isDone = completedCourses.includes(id);
 
@@ -45,6 +46,11 @@ function CoursePage() {
   const quizCorrect = quizPick === course.quiz.correctIndex;
 
   const allStepsChecked = stepsDone.length === course.steps.length;
+
+  const handleComplete = () => {
+    completeCourse(id);
+    awardForCourse(id, course.featured);
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -66,12 +72,23 @@ function CoursePage() {
             <span>{course.steps.length} steps</span>
           </div>
           <h1 className="mt-3 font-display text-4xl md:text-5xl tracking-tight leading-[1.05]">
+            {course.featured && <span aria-label="essential" title="Essential">⭐ </span>}
             {course.title}
           </h1>
+          {course.tier && (
+            <p className="mt-3 inline-block text-xs uppercase tracking-[0.18em] text-muted-foreground bg-secondary px-3 py-1 rounded-full">
+              {course.tier} tier
+            </p>
+          )}
         </header>
 
+        {/* Hook */}
+        <section className="mt-8 rounded-3xl bg-primary-soft border border-primary/20 p-6">
+          <p className="font-display text-xl leading-snug">{course.hook}</p>
+        </section>
+
         {/* Why */}
-        <section className="mt-10 rounded-3xl bg-secondary/60 border border-border/70 p-6">
+        <section className="mt-6 rounded-3xl bg-secondary/60 border border-border/70 p-6">
           <h2 className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Why this matters</h2>
           <p className="mt-3 leading-relaxed">{course.why}</p>
         </section>
