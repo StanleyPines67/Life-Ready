@@ -9,38 +9,89 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LibraryRouteImport } from './routes/library'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CategoryCategorySlugRouteImport } from './routes/category.$categorySlug'
+import { Route as CourseCategorySlugCourseSlugRouteImport } from './routes/course.$categorySlug.$courseSlug'
 
+const LibraryRoute = LibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CategoryCategorySlugRoute = CategoryCategorySlugRouteImport.update({
+  id: '/category/$categorySlug',
+  path: '/category/$categorySlug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CourseCategorySlugCourseSlugRoute =
+  CourseCategorySlugCourseSlugRouteImport.update({
+    id: '/course/$categorySlug/$courseSlug',
+    path: '/course/$categorySlug/$courseSlug',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/library': typeof LibraryRoute
+  '/category/$categorySlug': typeof CategoryCategorySlugRoute
+  '/course/$categorySlug/$courseSlug': typeof CourseCategorySlugCourseSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/library': typeof LibraryRoute
+  '/category/$categorySlug': typeof CategoryCategorySlugRoute
+  '/course/$categorySlug/$courseSlug': typeof CourseCategorySlugCourseSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/library': typeof LibraryRoute
+  '/category/$categorySlug': typeof CategoryCategorySlugRoute
+  '/course/$categorySlug/$courseSlug': typeof CourseCategorySlugCourseSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/library'
+    | '/category/$categorySlug'
+    | '/course/$categorySlug/$courseSlug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/library'
+    | '/category/$categorySlug'
+    | '/course/$categorySlug/$courseSlug'
+  id:
+    | '__root__'
+    | '/'
+    | '/library'
+    | '/category/$categorySlug'
+    | '/course/$categorySlug/$courseSlug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LibraryRoute: typeof LibraryRoute
+  CategoryCategorySlugRoute: typeof CategoryCategorySlugRoute
+  CourseCategorySlugCourseSlugRoute: typeof CourseCategorySlugCourseSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/library': {
+      id: '/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof LibraryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +99,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/category/$categorySlug': {
+      id: '/category/$categorySlug'
+      path: '/category/$categorySlug'
+      fullPath: '/category/$categorySlug'
+      preLoaderRoute: typeof CategoryCategorySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/course/$categorySlug/$courseSlug': {
+      id: '/course/$categorySlug/$courseSlug'
+      path: '/course/$categorySlug/$courseSlug'
+      fullPath: '/course/$categorySlug/$courseSlug'
+      preLoaderRoute: typeof CourseCategorySlugCourseSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LibraryRoute: LibraryRoute,
+  CategoryCategorySlugRoute: CategoryCategorySlugRoute,
+  CourseCategorySlugCourseSlugRoute: CourseCategorySlugCourseSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
