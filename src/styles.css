@@ -102,6 +102,10 @@
   --tint-money: oklch(0.91 0.045 145);
   --tint-admin: oklch(0.9 0.04 250);
   --tint-life: oklch(0.91 0.05 320);
+  --tint-home: oklch(0.91 0.04 200);
+  --tint-tech: oklch(0.9 0.045 270);
+  --tint-style: oklch(0.92 0.05 15);
+  --tint-career: oklch(0.91 0.045 110);
 
   --destructive: oklch(0.6 0.18 27);
   --destructive-foreground: oklch(0.99 0.01 80);
