@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
-import { useRewards, THEMES } from "@/hooks/useRewards";
+import { useRewards, THEMES, SHOP_ITEMS } from "@/hooks/useRewards";
 import { useProgress } from "@/hooks/useProgress";
 import { allCourses, featuredCourses } from "@/data/courses";
 
@@ -8,15 +9,35 @@ export const Route = createFileRoute("/rewards")({
   head: () => ({
     meta: [
       { title: "Trophies & Themes — LifeReady" },
-      { name: "description", content: "Earn coins by finishing skills. Unlock new themes." },
+      { name: "description", content: "Earn coins by finishing skills. Unlock themes and boosts." },
     ],
   }),
   component: Rewards,
 });
 
 function Rewards() {
-  const { coins, unlocked, active, unlockTheme, setActive } = useRewards();
+  const {
+    coins,
+    unlocked,
+    active,
+    unlockTheme,
+    setActive,
+    buyItem,
+    claimStreak,
+    streakActive,
+    streakCount,
+    streakClaimedToday,
+    doubleActive,
+    luckyCharm,
+    skipTokens,
+  } = useRewards();
   const { completedCourses } = useProgress();
+  const [flash, setFlash] = useState<string | null>(null);
+
+  const showFlash = (msg: string) => {
+    setFlash(msg);
+    window.setTimeout(() => setFlash(null), 2200);
+  };
 
   const total = allCourses.length;
   const done = completedCourses.length;
