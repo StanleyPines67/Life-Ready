@@ -1,3 +1,7 @@
+import pcParts from "@/assets/pc-parts.jpg";
+import pcCpu from "@/assets/pc-cpu.jpg";
+import pcFinished from "@/assets/pc-finished.jpg";
+
 export type Step = {
   title: string;
   body: string;
