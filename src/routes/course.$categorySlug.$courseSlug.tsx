@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
+import { CertificateModal } from "@/components/CertificateModal";
 import { getCategory, getCourse, courseEmoji, courseJoke } from "@/data/courses";
 import { useProgress } from "@/hooks/useProgress";
 import { useRewards } from "@/hooks/useRewards";
@@ -37,7 +38,7 @@ function CoursePage() {
   const { category, course } = Route.useLoaderData();
   const id = `${category.slug}/${course.slug}`;
   const { completedSteps, completedCourses, toggleStep, completeCourse, resetCourse } = useProgress();
-  const { awardForCourse } = useRewards();
+  const { awardForCourse, skipTokens, useSkipToken } = useRewards();
   const stepsDone = completedSteps[id] ?? [];
   const isDone = completedCourses.includes(id);
 
@@ -46,8 +47,21 @@ function CoursePage() {
   const quizCorrect = quizPick === course.quiz.correctIndex;
 
   const allStepsChecked = stepsDone.length === course.steps.length;
+  const requirementsMet = allStepsChecked && quizSubmitted && quizCorrect;
+
+  const [certOpen, setCertOpen] = useState(false);
+  // Open certificate automatically the moment a course flips to done.
+  useEffect(() => {
+    if (isDone) setCertOpen(true);
+  }, [isDone]);
 
   const handleComplete = () => {
+    completeCourse(id);
+    awardForCourse(id, course.featured);
+  };
+
+  const handleSkip = () => {
+    if (!useSkipToken()) return;
     completeCourse(id);
     awardForCourse(id, course.featured);
   };
