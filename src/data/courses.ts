@@ -1495,6 +1495,100 @@ export const categories: Category[] = [
       }),
     ],
   },
+
+  // -------------------------------------------------------------- NONESSENTIAL
+  {
+    slug: "nonessential",
+    title: "Deep Dives",
+    tagline: "Big optional projects that pay you back for years.",
+    emoji: "🧰",
+    tint: "nonessential",
+    courses: [
+      c({
+        slug: "build-a-pc",
+        title: "Build Your Own PC",
+        duration: "45 min read",
+        featured: true,
+        tier: "advanced",
+        emoji: "🖥️",
+        joke: "Lego for grown-ups, except the instructions are a 40-tab browser session.",
+        heroImage: "/__pc_parts__",
+        heroImageAlt: "A motherboard with CPU, RAM, GPU and SSD laid out neatly",
+        hook: "A pre-built gaming PC: $1,800. The same parts, assembled by you in an afternoon: $1,150. The 'hard' part is mostly knowing which slot is which.",
+        why: "Building your own PC saves 25–40% on the same performance, gets you exactly the upgrade path you want, and demystifies the most expensive thing on your desk for the next decade. The skill compounds: every future upgrade (more RAM, bigger SSD, new GPU) is now a 10-minute job instead of a $200 shop visit.",
+        steps: [
+          {
+            title: "Decide what the PC is FOR — before buying anything",
+            body: "Gaming at 1440p? Video editing? Just a fast browser? Each goal points to a different bottleneck. A streamer needs cores; a gamer needs GPU; an editor needs RAM + fast storage. Write the use case in one sentence — every part choice flows from it.",
+          },
+          {
+            title: "Set a budget split (the 30/30/20/20 rule)",
+            body: "Roughly: 30% GPU, 30% CPU + motherboard, 20% RAM + storage, 20% case + power supply + cooling. For a $1,000 build that's $300 GPU, $300 CPU/board, $200 RAM/SSD, $200 case/PSU/fan. Skewing too far in one direction creates a bottleneck.",
+            warning: "Never cheap out on the power supply (PSU). A bad PSU can fry every other part you bought.",
+          },
+          {
+            title: "Pick a CPU first, then a matching motherboard",
+            body: "CPU brand decides socket type. Intel 13th/14th gen → LGA1700 boards. AMD Ryzen 7000/9000 → AM5 boards. Make sure the board's chipset supports the features you want (Wi-Fi, enough M.2 slots, PCIe 5.0). Use pcpartpicker.com — it auto-checks compatibility.",
+          },
+          {
+            title: "Choose RAM that the board actually supports",
+            body: "Check the motherboard's QVL (qualified vendor list). For DDR5: 32GB (2×16) at 6000 MT/s is the sweet spot in 2025. Always buy in matched pairs so dual-channel works — single-stick RAM cuts memory bandwidth in half.",
+          },
+          {
+            title: "Pick the GPU last and tune it to your monitor",
+            body: "1080p 60Hz: any modern $250 GPU is plenty. 1440p high-refresh: $500–700 range. 4K: $900+. Don't overspend on a GPU your monitor can't display — frames you can't see are wasted money.",
+          },
+          {
+            title: "Storage: one fast NVMe SSD beats many slow drives",
+            body: "1TB Gen4 NVMe (~$80) for the OS and most-used programs. Add a 2TB SATA SSD or HDD later for bulk storage if needed. Skip spinning hard drives unless you're hoarding terabytes.",
+          },
+          {
+            title: "Prep your build space",
+            body: "Big flat table, good light, the motherboard's box as a soft work surface. Ground yourself by touching the metal case before handling parts. Keep all screws in a magnetic tray or muffin tin so nothing rolls away.",
+            image: "/__pc_cpu__",
+            imageAlt: "Hands carefully installing a CPU into a motherboard socket",
+          },
+          {
+            title: "Install CPU, RAM, and M.2 SSD on the motherboard FIRST",
+            body: "It's much easier outside the case. CPU: lift the lever, align the gold triangle with the socket triangle, drop it in (no force), close the lever. RAM: push the clips down, line up the notch, press both ends until the clips snap up. M.2: unscrew the standoff, slide the SSD in at an angle, lay it flat, screw it down.",
+            warning: "CPUs have hundreds of tiny pins (or pads). Bent = dead. Never touch the gold contacts and never force it.",
+          },
+          {
+            title: "Mount the motherboard in the case",
+            body: "Install the I/O shield in the back of the case (it usually clips in from inside). Drop the motherboard onto the standoffs, line up the screw holes, and tighten in a star pattern — snug, not Hulk-tight.",
+          },
+          {
+            title: "Install the PSU, then route cables BEFORE the GPU",
+            body: "Mount PSU with fan facing down (if the case has a vent there) or up (if not). Run the 24-pin and 8-pin CPU cables through the back of the case, then push them through the front grommets. Cable management now = much easier than after.",
+          },
+          {
+            title: "Install GPU and connect everything",
+            body: "Remove the right number of PCIe slot covers, push the GPU into the top PCIe x16 slot until the clip snaps, screw it to the case. Plug in the GPU's power cable (8-pin or 12VHPWR). Connect SATA + power for any extra drives. Connect the case's front-panel pins to the motherboard (power button, USB, audio).",
+          },
+          {
+            title: "First boot — install the OS",
+            body: "Plug monitor into the GPU (not the motherboard). Power on. You should see a BIOS screen. In BIOS: enable XMP/EXPO so your RAM runs at full speed, set the boot drive. Then install Windows or Linux from a USB stick. Update the GPU driver, and you're done.",
+            image: "/__pc_finished__",
+            imageAlt: "A finished PC build with cable management visible through a glass side panel",
+          },
+        ],
+        mistakes: [
+          "Buying a CPU and motherboard with mismatched sockets (the #1 first-build mistake).",
+          "Forgetting to install standoffs OR using too many — both can short the motherboard.",
+          "Plugging the monitor into the motherboard instead of the GPU (no signal, panic ensues).",
+          "Forgetting to enable XMP/EXPO — your $200 fast RAM runs at 4800 MT/s instead of 6000+.",
+          "Skipping cable management — looks bad, blocks airflow, makes upgrades miserable.",
+          "Cheap PSU from an unknown brand — see the Cultists Network PSU tier list before buying.",
+        ],
+        quiz: {
+          question: "After the build is done, which port should you plug the monitor into?",
+          options: ["The motherboard HDMI/DisplayPort", "The GPU's HDMI/DisplayPort", "Either — they're the same", "Use a USB-C adapter"],
+          correctIndex: 1,
+          explanation: "If you have a discrete GPU, the motherboard outputs are usually disabled or only work via the integrated GPU. Always plug into the GPU.",
+        },
+      }),
+    ],
+  },
 ];
 
 // ============================================================================
