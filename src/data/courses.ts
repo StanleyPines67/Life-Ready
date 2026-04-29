@@ -1524,3 +1524,66 @@ export const tierMeta: Record<MoneyTier, { label: string; emoji: string; tagline
   intermediate: { label: "Intermediate", emoji: "🌿", tagline: "Taxes, debt, emergency fund, retirement." },
   advanced: { label: "Advanced", emoji: "🌳", tagline: "Investing, optimization, negotiation." },
 };
+
+// ----------------------------------------------------------------------------
+// Per-course emoji + joke fallbacks (so we don't have to edit every Course inline).
+// New courses can also set `emoji` / `joke` directly on the Course object.
+// ----------------------------------------------------------------------------
+
+const courseFlavor: Record<string, { emoji: string; joke: string }> = {
+  // transport
+  "change-a-flat-tire": { emoji: "🛞", joke: "The spare tire's only job: be ready for the worst day of your week." },
+  "jump-start-a-car": { emoji: "🔋", joke: "Red to dead. Black to back. Rhymes save engines." },
+  "dashboard-warning-lights": { emoji: "🚨", joke: "Your car has more emoji than your group chat — and they all mean money." },
+  "car-insurance-basics": { emoji: "📄", joke: "Insurance: the only thing you buy hoping never to use." },
+  "speeding-ticket": { emoji: "🚓", joke: "The cheapest pedal is the one on the right when a cop is behind you." },
+  // money
+  "read-a-paycheck": { emoji: "💵", joke: "Gross pay is the dream. Net pay is the apartment." },
+  "open-bank-accounts": { emoji: "🏦", joke: "Your bank's app loves you. Your bank's fees do not." },
+  "monthly-budget": { emoji: "📊", joke: "A budget is just telling your money where to go instead of asking where it went." },
+  "build-credit-score": { emoji: "📈", joke: "Credit scores: a number that judges you before any human does." },
+  "file-basic-taxes": { emoji: "🧾", joke: "April 15: the day adults find out they're adults." },
+  "emergency-fund": { emoji: "🛟", joke: "An emergency fund turns 'crisis' into 'inconvenience'." },
+  "debt-payoff-strategy": { emoji: "❄️", joke: "Snowball or avalanche — either way, the debt melts." },
+  "401k-roth-ira": { emoji: "🏖️", joke: "Future you wants to retire. Present you should send a check." },
+  "what-insurance-you-need": { emoji: "🛡️", joke: "If losing it would ruin you, insure it. Otherwise, don't." },
+  "tax-deductions-credits": { emoji: "🪙", joke: "Deductions shrink the pie. Credits eat a slice off the plate." },
+  "investing-index-funds": { emoji: "🌱", joke: "Time in the market beats timing the market — and your group chat picks." },
+  "negotiate-a-raise": { emoji: "🤝", joke: "If you don't ask, the answer is 100% no. Math is on your side." },
+  // admin
+  "rent-an-apartment": { emoji: "🏠", joke: "Read the lease. The fine print is where the rent quietly grows legs." },
+  "replace-ssn-card": { emoji: "🪪", joke: "Lose it once: paperwork. Lose it twice: paperwork's evil twin." },
+  "replace-birth-certificate": { emoji: "📜", joke: "Proof you exist, sold to you by the same people who made you exist on paper." },
+  "prevent-identity-theft": { emoji: "🕵️", joke: "Freezing your credit is free. Unfreezing your life is not." },
+  "register-to-vote": { emoji: "🗳️", joke: "Voting is the only group project where your single answer actually counts." },
+  // home
+  "unclog-toilet": { emoji: "🚽", joke: "The plunger: humble, heroic, $6." },
+  "unclog-sink-drain": { emoji: "🚰", joke: "Hair + soap + time = the world's worst smoothie." },
+  "change-air-filter": { emoji: "🌬️", joke: "Your AC breathes through a sock. Change the sock." },
+  "smoke-detector-care": { emoji: "🚨", joke: "The 3am chirp is the smoke detector's love language." },
+  "stain-removal": { emoji: "🧺", joke: "Hot water sets stains. Now you know why your shirt remembers everything." },
+  "trash-recycle-compost": { emoji: "♻️", joke: "Pizza box grease ruins recycling. Cheese bites back." },
+  "deep-clean-routine": { emoji: "🧽", joke: "Top to bottom, dry then wet. Gravity is doing half the work." },
+  "basic-plumbing-shutoff": { emoji: "🚿", joke: "Know where the water shutoff is BEFORE you need it. Dramatically." },
+  // tech
+  "backup-everything": { emoji: "💾", joke: "Two is one, one is none. Your hard drive heard that." },
+  "clean-your-computer": { emoji: "🖥️", joke: "Compressed air: the only canister that makes your laptop younger." },
+  "phone-storage": { emoji: "📱", joke: "Your photos app is 80% accidental selfies. Yes, even yours." },
+  "use-ai-well": { emoji: "🤖", joke: "AI is a brilliant intern with no memory and infinite confidence." },
+  "basic-electronics-safety": { emoji: "⚡", joke: "Electricity always finds a path. Don't volunteer to be one." },
+  // style
+  "tie-a-tie": { emoji: "👔", joke: "A four-in-hand: easy, effortless, slightly crooked on purpose." },
+  "budget-wardrobe": { emoji: "👕", joke: "Five things that all match beat fifty that don't." },
+  "dining-etiquette": { emoji: "🍽️", joke: "Outside-in for forks. Inside-out for opinions about forks." },
+  "laundry-without-ruining": { emoji: "🧦", joke: "The dryer eats one sock per load. It's the rent." },
+  // career
+  "job-interview-prep": { emoji: "💼", joke: "'Tell me about yourself' is not actually about yourself." },
+  "professional-email": { emoji: "✉️", joke: "'Per my last email' = I am restraining myself." },
+  // life
+  "smart-storage": { emoji: "📦", joke: "Label the box. Future you is not psychic." },
+};
+
+export const courseEmoji = (slug: string, fallback: string) =>
+  courseFlavor[slug]?.emoji ?? fallback;
+export const courseJoke = (slug: string): string | undefined => courseFlavor[slug]?.joke;
+
