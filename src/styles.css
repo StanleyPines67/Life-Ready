@@ -346,3 +346,25 @@ html[data-theme="sunset"] {
   --destructive: oklch(0.72 0.2 22);
   --destructive-foreground: oklch(0.2 0.04 30);
 }
+
+/* Dark themes: override hero gradient + shadows so text stays legible. */
+html[data-theme="midnight"],
+html[data-theme="charcoal"],
+html[data-theme="ocean"],
+html[data-theme="plum"],
+html[data-theme="emerald"],
+html[data-theme="sunset"] {
+  --gradient-hero: radial-gradient(
+    ellipse at top right,
+    color-mix(in oklab, var(--primary) 18%, var(--background)) 0%,
+    var(--background) 65%
+  );
+  --gradient-warm: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--primary) 12%, var(--background)) 0%,
+    var(--background) 100%
+  );
+  --shadow-soft: 0 4px 24px -8px oklch(0 0 0 / 0.5);
+  --shadow-card: 0 2px 12px -4px oklch(0 0 0 / 0.35);
+  --shadow-elevated: 0 12px 40px -12px oklch(0 0 0 / 0.6);
+}
