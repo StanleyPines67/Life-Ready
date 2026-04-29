@@ -109,6 +109,18 @@ function CoursePage() {
           )}
         </header>
 
+        {/* Hero image (mega courses) */}
+        {course.heroImage && (
+          <figure className="mt-8 rounded-3xl overflow-hidden border border-border/70 shadow-[var(--shadow-card)]">
+            <img
+              src={course.heroImage}
+              alt={course.heroImageAlt ?? course.title}
+              loading="lazy"
+              className="w-full h-auto block"
+            />
+          </figure>
+        )}
+
         {/* Hook */}
         <section className="mt-8 rounded-3xl bg-primary-soft border border-primary/20 p-6">
           <p className="font-display text-xl leading-snug">{course.hook}</p>
@@ -157,6 +169,14 @@ function CoursePage() {
                             <span aria-hidden>⚠</span>
                             <span>{step.warning}</span>
                           </p>
+                        )}
+                        {step.image && (
+                          <img
+                            src={step.image}
+                            alt={step.imageAlt ?? step.title}
+                            loading="lazy"
+                            className="mt-4 rounded-2xl w-full h-auto border border-border/60"
+                          />
                         )}
                       </div>
                     </div>
