@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
-import { categories, allCourses } from "@/data/courses";
+import { categories, allCourses, courseEmoji } from "@/data/courses";
 import { useProgress } from "@/hooks/useProgress";
 
 export const Route = createFileRoute("/library")({
