@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
-import { getCategory } from "@/data/courses";
+import { getCategory, courseEmoji } from "@/data/courses";
 import { useProgress } from "@/hooks/useProgress";
 
 export const Route = createFileRoute("/category/$categorySlug")({
@@ -81,8 +81,14 @@ function CategoryPage() {
                     <span className="font-display text-2xl text-muted-foreground tabular-nums">
                       {String(idx + 1).padStart(2, "0")}
                     </span>
+                    <span className="text-3xl flex-shrink-0 leading-none mt-0.5" aria-hidden>
+                      {course.emoji ?? courseEmoji(course.slug, category.emoji)}
+                    </span>
                     <div className="min-w-0">
-                      <h2 className="font-display text-xl tracking-tight">{course.title}</h2>
+                      <h2 className="font-display text-xl tracking-tight">
+                        {course.featured && <span aria-hidden>⭐ </span>}
+                        {course.title}
+                      </h2>
                       <p className="mt-1 text-sm text-muted-foreground">{course.duration} • {totalSteps} steps</p>
                     </div>
                   </div>

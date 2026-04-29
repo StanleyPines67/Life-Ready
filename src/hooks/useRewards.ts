@@ -2,13 +2,36 @@ import { useEffect, useState, useCallback } from "react";
 
 const KEY = "lifeready:rewards:v1";
 
-export type ThemeId = "warm" | "rose" | "forest" | "midnight";
+export type ThemeId =
+  | "warm"
+  | "rose"
+  | "forest"
+  | "midnight"
+  | "charcoal"
+  | "ocean"
+  | "plum"
+  | "emerald"
+  | "sunset";
 
-export const THEMES: { id: ThemeId; name: string; cost: number; preview: string }[] = [
-  { id: "warm", name: "Warm Clay (default)", cost: 0, preview: "oklch(0.65 0.14 38)" },
-  { id: "rose", name: "Soft Rose", cost: 0, preview: "oklch(0.7 0.13 18)" },
-  { id: "forest", name: "Deep Forest", cost: 30, preview: "oklch(0.55 0.1 155)" },
-  { id: "midnight", name: "Midnight Ink", cost: 60, preview: "oklch(0.45 0.12 265)" },
+export type ThemeMode = "light" | "dark";
+
+export const THEMES: {
+  id: ThemeId;
+  name: string;
+  cost: number;
+  preview: string;
+  mode: ThemeMode;
+  blurb: string;
+}[] = [
+  { id: "warm", name: "Warm Clay", cost: 0, preview: "oklch(0.65 0.14 38)", mode: "light", blurb: "The original — terracotta and sage." },
+  { id: "rose", name: "Soft Rose", cost: 0, preview: "oklch(0.7 0.13 18)", mode: "light", blurb: "Default. Calm pink-ish warmth." },
+  { id: "forest", name: "Deep Forest", cost: 30, preview: "oklch(0.55 0.1 155)", mode: "light", blurb: "Mossy greens, focused vibe." },
+  { id: "midnight", name: "Midnight Ink", cost: 60, preview: "oklch(0.55 0.15 265)", mode: "dark", blurb: "Indigo dark mode for late nights." },
+  { id: "charcoal", name: "Charcoal & Gold", cost: 80, preview: "oklch(0.78 0.14 75)", mode: "dark", blurb: "Pure dark with a gold accent." },
+  { id: "ocean", name: "Deep Ocean", cost: 90, preview: "oklch(0.6 0.14 200)", mode: "dark", blurb: "Underwater teal — submarine mode." },
+  { id: "plum", name: "Velvet Plum", cost: 110, preview: "oklch(0.6 0.15 340)", mode: "dark", blurb: "Rich plum with magenta highlights." },
+  { id: "emerald", name: "Emerald Night", cost: 120, preview: "oklch(0.6 0.15 155)", mode: "dark", blurb: "Forest-green dark mode." },
+  { id: "sunset", name: "Last Light", cost: 140, preview: "oklch(0.65 0.16 45)", mode: "dark", blurb: "Burnt-orange dusk on dark." },
 ];
 
 type RewardsState = {

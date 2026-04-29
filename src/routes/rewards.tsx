@@ -73,51 +73,74 @@ function Rewards() {
         </section>
 
         <section className="mt-12">
-          <h2 className="font-display text-2xl tracking-tight">Themes</h2>
-          <p className="text-sm text-muted-foreground mt-1">Spend coins to unlock.</p>
-          <div className="mt-5 space-y-3">
-            {THEMES.map((t) => {
-              const isUnlocked = unlocked.includes(t.id);
-              const isActive = active === t.id;
-              return (
-                <div
-                  key={t.id}
-                  className="rounded-2xl border border-border/70 bg-card p-5 flex items-center gap-4"
-                >
-                  <span
-                    className="h-12 w-12 rounded-2xl flex-shrink-0"
-                    style={{ background: t.preview }}
-                  />
-                  <div className="flex-1 min-w-0">
-                    <div className="font-medium">{t.name}</div>
-                    <div className="text-xs text-muted-foreground">
-                      {isUnlocked ? "Unlocked" : `Costs ${t.cost} coins`}
-                    </div>
-                  </div>
-                  {isActive ? (
-                    <span className="text-xs px-3 py-1.5 rounded-full bg-primary text-primary-foreground">
-                      Active
-                    </span>
-                  ) : isUnlocked ? (
-                    <button
-                      onClick={() => setActive(t.id)}
-                      className="text-sm px-4 py-2 rounded-full border border-border hover:bg-secondary"
-                    >
-                      Use
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => unlockTheme(t.id)}
-                      disabled={coins < t.cost}
-                      className="text-sm px-4 py-2 rounded-full bg-primary text-primary-foreground disabled:opacity-40"
-                    >
-                      Unlock
-                    </button>
-                  )}
+          <h2 className="font-display text-2xl tracking-tight">Theme shop</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            Spend coins to unlock. All dark themes are tested for legibility.
+          </p>
+
+          {(["light", "dark"] as const).map((mode) => {
+            const themes = THEMES.filter((t) => t.mode === mode);
+            return (
+              <div key={mode} className="mt-8">
+                <h3 className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-3">
+                  {mode === "light" ? "☀ Light themes" : "🌙 Dark themes"}
+                </h3>
+                <div className="space-y-3">
+                  {themes.map((t) => {
+                    const isUnlocked = unlocked.includes(t.id);
+                    const isActive = active === t.id;
+                    return (
+                      <div
+                        key={t.id}
+                        className="rounded-2xl border border-border/70 bg-card p-5 flex items-center gap-4"
+                      >
+                        <span
+                          className="h-12 w-12 rounded-2xl flex-shrink-0 border border-border/40"
+                          style={{ background: t.preview }}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium flex items-center gap-2">
+                            {t.name}
+                            {t.cost === 0 && (
+                              <span className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-secondary text-secondary-foreground">
+                                Free
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-xs text-muted-foreground truncate">
+                            {t.blurb}
+                          </div>
+                          <div className="text-xs text-muted-foreground mt-0.5">
+                            {isUnlocked ? "Unlocked" : `🪙 ${t.cost}`}
+                          </div>
+                        </div>
+                        {isActive ? (
+                          <span className="text-xs px-3 py-1.5 rounded-full bg-primary text-primary-foreground">
+                            Active
+                          </span>
+                        ) : isUnlocked ? (
+                          <button
+                            onClick={() => setActive(t.id)}
+                            className="text-sm px-4 py-2 rounded-full border border-border hover:bg-secondary"
+                          >
+                            Use
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => unlockTheme(t.id)}
+                            disabled={coins < t.cost}
+                            className="text-sm px-4 py-2 rounded-full bg-primary text-primary-foreground disabled:opacity-40"
+                          >
+                            Unlock
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </section>
       </main>
     </div>

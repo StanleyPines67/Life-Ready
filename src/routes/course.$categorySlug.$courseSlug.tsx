@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
-import { getCategory, getCourse } from "@/data/courses";
+import { getCategory, getCourse, courseEmoji, courseJoke } from "@/data/courses";
 import { useProgress } from "@/hooks/useProgress";
 import { useRewards } from "@/hooks/useRewards";
 
@@ -66,18 +66,31 @@ function CoursePage() {
 
         {/* Header */}
         <header className="mt-6">
-          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-            <span>{course.duration}</span>
-            <span>•</span>
-            <span>{course.steps.length} steps</span>
+          <div className="flex items-center gap-3">
+            <span
+              className="h-14 w-14 rounded-2xl bg-primary-soft grid place-items-center text-3xl flex-shrink-0"
+              aria-hidden
+            >
+              {course.emoji ?? courseEmoji(course.slug, category.emoji)}
+            </span>
+            <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              <span>{course.duration}</span>
+              <span>•</span>
+              <span>{course.steps.length} steps</span>
+            </div>
           </div>
-          <h1 className="mt-3 font-display text-4xl md:text-5xl tracking-tight leading-[1.05]">
+          <h1 className="mt-4 font-display text-4xl md:text-5xl tracking-tight leading-[1.05]">
             {course.featured && <span aria-label="essential" title="Essential">⭐ </span>}
             {course.title}
           </h1>
           {course.tier && (
             <p className="mt-3 inline-block text-xs uppercase tracking-[0.18em] text-muted-foreground bg-secondary px-3 py-1 rounded-full">
               {course.tier} tier
+            </p>
+          )}
+          {(course.joke ?? courseJoke(course.slug)) && (
+            <p className="mt-4 text-sm italic text-muted-foreground leading-relaxed">
+              “{course.joke ?? courseJoke(course.slug)}”
             </p>
           )}
         </header>
