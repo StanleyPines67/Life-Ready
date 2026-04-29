@@ -71,6 +71,86 @@ function Rewards() {
           </div>
         </div>
 
+        {flash && (
+          <div className="mt-4 rounded-2xl border border-primary/30 bg-primary-soft px-4 py-3 text-sm">
+            {flash}
+          </div>
+        )}
+
+        {/* BOOSTS / SHOP ITEMS */}
+        <section className="mt-12">
+          <h2 className="font-display text-2xl tracking-tight">Boosts & items</h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            Spend coins on advantages. The streak pays you back if you actually show up.
+          </p>
+
+          {streakActive && (
+            <div className="mt-5 rounded-3xl border border-primary/30 bg-primary-soft p-5 flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <div className="font-display text-xl">🔥 Day {streakCount || 0} streak</div>
+                <div className="text-sm text-muted-foreground mt-1">
+                  Tomorrow's reward: 🪙 {Math.min((streakCount || 0) + 1, 10)}.
+                  Miss a day and it resets to 1.
+                </div>
+              </div>
+              <button
+                type="button"
+                disabled={streakClaimedToday}
+                onClick={() => {
+                  const r = claimStreak();
+                  if (r.ok) showFlash(`+${r.awarded} 🪙 — day ${r.reset ? 1 : streakCount + 1}`);
+                }}
+                className="px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-medium disabled:opacity-50"
+              >
+                {streakClaimedToday ? "Claimed today ✓" : "Claim today"}
+              </button>
+            </div>
+          )}
+
+          <div className="mt-5 grid sm:grid-cols-2 gap-3">
+            {SHOP_ITEMS.map((item) => {
+              const owned =
+                (item.id === "streak" && streakActive) ||
+                (item.id === "lucky-charm" && luckyCharm);
+              const ownedCount = item.id === "course-skip" ? skipTokens : 0;
+              const ongoing = item.id === "double-coins" && doubleActive;
+              const disableBuy = owned || coins < item.cost;
+              return (
+                <div
+                  key={item.id}
+                  className="rounded-2xl border border-border/70 bg-card p-5 flex flex-col"
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="text-3xl" aria-hidden>{item.emoji}</span>
+                    <div className="flex-1">
+                      <div className="font-medium">{item.name}</div>
+                      <div className="text-xs text-muted-foreground mt-0.5">{item.blurb}</div>
+                    </div>
+                  </div>
+                  <p className="mt-3 text-xs text-muted-foreground leading-relaxed">{item.detail}</p>
+                  <div className="mt-4 flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">
+                      {owned ? "Owned" : ongoing ? "Active" : ownedCount > 0 ? `Owned ×${ownedCount}` : `🪙 ${item.cost}`}
+                    </span>
+                    <button
+                      type="button"
+                      disabled={disableBuy}
+                      onClick={() => {
+                        const r = buyItem(item.id);
+                        if (r.ok) showFlash(`Bought ${item.name}.`);
+                        else if (r.reason) showFlash(r.reason);
+                      }}
+                      className="text-sm px-4 py-2 rounded-full bg-primary text-primary-foreground disabled:opacity-40"
+                    >
+                      {owned ? "Owned" : "Buy"}
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
         <section className="mt-12">
           <h2 className="font-display text-2xl tracking-tight">Trophies</h2>
           <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 gap-3">
