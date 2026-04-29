@@ -245,30 +245,63 @@ function CoursePage() {
               {isDone ? "You've completed this skill." : "Mark as complete?"}
             </p>
             <p className="text-sm text-muted-foreground mt-1">
-              {allStepsChecked || isDone
-                ? "All steps checked off."
-                : `${stepsDone.length} of ${course.steps.length} steps checked.`}
+              {isDone
+                ? "All requirements met. Certificate unlocked."
+                : requirementsMet
+                  ? "All steps + correct quiz answer ✓ — ready to complete."
+                  : `${stepsDone.length}/${course.steps.length} steps · ${quizSubmitted ? (quizCorrect ? "quiz ✓" : "quiz ✗") : "quiz pending"}`}
             </p>
           </div>
-          {isDone ? (
-            <button
-              type="button"
-              onClick={() => resetCourse(id)}
-              className="px-5 py-2.5 rounded-full border border-border text-sm hover:bg-secondary transition-colors"
-            >
-              Reset progress
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleComplete}
-              className="px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:scale-[1.02] transition-transform"
-            >
-              Mark complete
-            </button>
-          )}
+          <div className="flex flex-wrap gap-2">
+            {isDone ? (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setCertOpen(true)}
+                  className="px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-medium"
+                >
+                  View certificate 🏅
+                </button>
+                <button
+                  type="button"
+                  onClick={() => resetCourse(id)}
+                  className="px-5 py-2.5 rounded-full border border-border text-sm hover:bg-secondary transition-colors"
+                >
+                  Reset
+                </button>
+              </>
+            ) : (
+              <>
+                {skipTokens > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleSkip}
+                    className="px-5 py-2.5 rounded-full border border-border text-sm hover:bg-secondary"
+                    title={`Use a Skip Token (${skipTokens} left)`}
+                  >
+                    ⏭️ Skip ({skipTokens})
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={handleComplete}
+                  disabled={!requirementsMet}
+                  className="px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:scale-[1.02] transition-transform disabled:opacity-40 disabled:hover:scale-100"
+                >
+                  Mark complete
+                </button>
+              </>
+            )}
+          </div>
         </section>
       </main>
+
+      <CertificateModal
+        open={certOpen}
+        onClose={() => setCertOpen(false)}
+        courseTitle={course.title}
+        categoryTitle={category.title}
+      />
     </div>
   );
 }
