@@ -63,11 +63,11 @@ function Index() {
               <dl className="mt-12 flex gap-8 text-sm">
                 <div>
                   <dt className="text-muted-foreground">Skills</dt>
-                  <dd className="font-display text-2xl">{totalCourses}</dd>
+                  <dd className="font-display text-2xl text-foreground">{totalCourses}</dd>
                 </div>
                 <div>
                   <dt className="text-muted-foreground">Average</dt>
-                  <dd className="font-display text-2xl">7 min</dd>
+                  <dd className="font-display text-2xl text-foreground">7 min</dd>
                 </div>
                 <div>
                   <dt className="text-muted-foreground">You've done</dt>

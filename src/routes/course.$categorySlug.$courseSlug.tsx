@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
+import { CertificateModal } from "@/components/CertificateModal";
 import { getCategory, getCourse, courseEmoji, courseJoke } from "@/data/courses";
 import { useProgress } from "@/hooks/useProgress";
 import { useRewards } from "@/hooks/useRewards";
@@ -37,7 +38,7 @@ function CoursePage() {
   const { category, course } = Route.useLoaderData();
   const id = `${category.slug}/${course.slug}`;
   const { completedSteps, completedCourses, toggleStep, completeCourse, resetCourse } = useProgress();
-  const { awardForCourse } = useRewards();
+  const { awardForCourse, skipTokens, useSkipToken } = useRewards();
   const stepsDone = completedSteps[id] ?? [];
   const isDone = completedCourses.includes(id);
 
@@ -46,8 +47,21 @@ function CoursePage() {
   const quizCorrect = quizPick === course.quiz.correctIndex;
 
   const allStepsChecked = stepsDone.length === course.steps.length;
+  const requirementsMet = allStepsChecked && quizSubmitted && quizCorrect;
+
+  const [certOpen, setCertOpen] = useState(false);
+  // Open certificate automatically the moment a course flips to done.
+  useEffect(() => {
+    if (isDone) setCertOpen(true);
+  }, [isDone]);
 
   const handleComplete = () => {
+    completeCourse(id);
+    awardForCourse(id, course.featured);
+  };
+
+  const handleSkip = () => {
+    if (!useSkipToken()) return;
     completeCourse(id);
     awardForCourse(id, course.featured);
   };
@@ -94,6 +108,18 @@ function CoursePage() {
             </p>
           )}
         </header>
+
+        {/* Hero image (mega courses) */}
+        {course.heroImage && (
+          <figure className="mt-8 rounded-3xl overflow-hidden border border-border/70 shadow-[var(--shadow-card)]">
+            <img
+              src={course.heroImage}
+              alt={course.heroImageAlt ?? course.title}
+              loading="lazy"
+              className="w-full h-auto block"
+            />
+          </figure>
+        )}
 
         {/* Hook */}
         <section className="mt-8 rounded-3xl bg-primary-soft border border-primary/20 p-6">
@@ -143,6 +169,14 @@ function CoursePage() {
                             <span aria-hidden>⚠</span>
                             <span>{step.warning}</span>
                           </p>
+                        )}
+                        {step.image && (
+                          <img
+                            src={step.image}
+                            alt={step.imageAlt ?? step.title}
+                            loading="lazy"
+                            className="mt-4 rounded-2xl w-full h-auto border border-border/60"
+                          />
                         )}
                       </div>
                     </div>
@@ -211,30 +245,63 @@ function CoursePage() {
               {isDone ? "You've completed this skill." : "Mark as complete?"}
             </p>
             <p className="text-sm text-muted-foreground mt-1">
-              {allStepsChecked || isDone
-                ? "All steps checked off."
-                : `${stepsDone.length} of ${course.steps.length} steps checked.`}
+              {isDone
+                ? "All requirements met. Certificate unlocked."
+                : requirementsMet
+                  ? "All steps + correct quiz answer ✓ — ready to complete."
+                  : `${stepsDone.length}/${course.steps.length} steps · ${quizSubmitted ? (quizCorrect ? "quiz ✓" : "quiz ✗") : "quiz pending"}`}
             </p>
           </div>
-          {isDone ? (
-            <button
-              type="button"
-              onClick={() => resetCourse(id)}
-              className="px-5 py-2.5 rounded-full border border-border text-sm hover:bg-secondary transition-colors"
-            >
-              Reset progress
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleComplete}
-              className="px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:scale-[1.02] transition-transform"
-            >
-              Mark complete
-            </button>
-          )}
+          <div className="flex flex-wrap gap-2">
+            {isDone ? (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setCertOpen(true)}
+                  className="px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-medium"
+                >
+                  View certificate 🏅
+                </button>
+                <button
+                  type="button"
+                  onClick={() => resetCourse(id)}
+                  className="px-5 py-2.5 rounded-full border border-border text-sm hover:bg-secondary transition-colors"
+                >
+                  Reset
+                </button>
+              </>
+            ) : (
+              <>
+                {skipTokens > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleSkip}
+                    className="px-5 py-2.5 rounded-full border border-border text-sm hover:bg-secondary"
+                    title={`Use a Skip Token (${skipTokens} left)`}
+                  >
+                    ⏭️ Skip ({skipTokens})
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={handleComplete}
+                  disabled={!requirementsMet}
+                  className="px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:scale-[1.02] transition-transform disabled:opacity-40 disabled:hover:scale-100"
+                >
+                  Mark complete
+                </button>
+              </>
+            )}
+          </div>
         </section>
       </main>
+
+      <CertificateModal
+        open={certOpen}
+        onClose={() => setCertOpen(false)}
+        courseTitle={course.title}
+        categoryTitle={category.title}
+      />
     </div>
   );
 }
