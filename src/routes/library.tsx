@@ -71,8 +71,14 @@ function Library() {
                           >
                             {done && "✓"}
                           </span>
+                          <span className="text-xl flex-shrink-0" aria-hidden>
+                            {course.emoji ?? courseEmoji(course.slug, category.emoji)}
+                          </span>
                           <div className="min-w-0">
-                            <div className="font-medium truncate">{course.title}</div>
+                            <div className="font-medium truncate">
+                              {course.featured && <span aria-hidden>⭐ </span>}
+                              {course.title}
+                            </div>
                             <div className="text-xs text-muted-foreground">{course.duration} • {course.steps.length} steps</div>
                           </div>
                         </div>
