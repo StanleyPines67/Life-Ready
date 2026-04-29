@@ -2,6 +2,8 @@ export type Step = {
   title: string;
   body: string;
   warning?: string;
+  image?: string; // optional illustration url (imported asset)
+  imageAlt?: string;
 };
 
 export type QuizQuestion = {
@@ -21,6 +23,8 @@ export type Course = {
   tier?: "starter" | "intermediate" | "advanced"; // used by money tracks
   emoji?: string; // small visual for the topic
   joke?: string; // one-liner shown near the hook
+  heroImage?: string; // big banner image for mega courses
+  heroImageAlt?: string;
   steps: Step[];
   mistakes: string[];
   quiz: QuizQuestion;
@@ -31,7 +35,7 @@ export type Category = {
   title: string;
   tagline: string;
   emoji: string;
-  tint: "transport" | "cooking" | "money" | "admin" | "life" | "home" | "tech" | "style" | "career";
+  tint: "transport" | "cooking" | "money" | "admin" | "life" | "home" | "tech" | "style" | "career" | "nonessential";
   courses: Course[];
 };
 
