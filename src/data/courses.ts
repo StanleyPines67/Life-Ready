@@ -19,6 +19,8 @@ export type Course = {
   why: string;
   featured?: boolean; // ⭐ most important
   tier?: "starter" | "intermediate" | "advanced"; // used by money tracks
+  emoji?: string; // small visual for the topic
+  joke?: string; // one-liner shown near the hook
   steps: Step[];
   mistakes: string[];
   quiz: QuizQuestion;
