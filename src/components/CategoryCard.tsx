@@ -13,6 +13,8 @@ const tintMap: Record<Category["tint"], string> = {
   style: "bg-tint-style",
   career: "bg-tint-career",
   nonessential: "bg-tint-nonessential",
+  housing: "bg-tint-housing",
+  health: "bg-tint-health",
 };
 
 export function CategoryCard({ category }: { category: Category }) {
