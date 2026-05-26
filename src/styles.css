@@ -57,6 +57,8 @@
   --color-tint-style: var(--tint-style);
   --color-tint-career: var(--tint-career);
   --color-tint-nonessential: var(--tint-nonessential);
+  --color-tint-housing: var(--tint-housing);
+  --color-tint-health: var(--tint-health);
   --font-display: "Fraunces", "Cormorant Garamond", Georgia, serif;
   --font-sans: "Inter Tight", "Inter", system-ui, sans-serif;
   --color-chart-1: var(--chart-1);
