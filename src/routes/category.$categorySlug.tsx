@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
-import { getCategory, courseEmoji } from "@/data/courses";
+import { getCategory, courseEmoji, type Course } from "@/data/courses";
 import { useProgress } from "@/hooks/useProgress";
 
 export const Route = createFileRoute("/category/$categorySlug")({
@@ -65,7 +65,7 @@ function CategoryPage() {
         </div>
 
         <div className="mt-12 space-y-3">
-          {category.courses.map((course, idx) => {
+          {category.courses.map((course: Course, idx: number) => {
             const id = `${category.slug}/${course.slug}`;
             const stepsDone = completedSteps[id]?.length ?? 0;
             const totalSteps = course.steps.length;

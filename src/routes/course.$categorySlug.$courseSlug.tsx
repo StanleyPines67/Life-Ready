@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { CertificateModal } from "@/components/CertificateModal";
-import { getCategory, getCourse, courseEmoji, courseJoke } from "@/data/courses";
+import { getCategory, getCourse, courseEmoji, courseJoke, type Step } from "@/data/courses";
 import { useProgress } from "@/hooks/useProgress";
 import { useRewards } from "@/hooks/useRewards";
 
@@ -136,7 +136,7 @@ function CoursePage() {
         <section className="mt-12">
           <h2 className="font-display text-2xl tracking-tight">Steps</h2>
           <ol className="mt-6 space-y-3">
-            {course.steps.map((step, i) => {
+            {course.steps.map((step: Step, i: number) => {
               const checked = stepsDone.includes(i);
               return (
                 <li key={i}>
@@ -191,7 +191,7 @@ function CoursePage() {
         <section className="mt-12">
           <h2 className="font-display text-2xl tracking-tight">Common mistakes</h2>
           <ul className="mt-5 space-y-2">
-            {course.mistakes.map((m, i) => (
+            {course.mistakes.map((m: string, i: number) => (
               <li key={i} className="flex gap-3 text-sm leading-relaxed">
                 <span className="text-primary mt-1.5 flex-shrink-0" aria-hidden>×</span>
                 <span>{m}</span>
@@ -205,7 +205,7 @@ function CoursePage() {
           <h2 className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Quick check</h2>
           <p className="mt-3 font-display text-xl leading-snug">{course.quiz.question}</p>
           <div className="mt-5 space-y-2">
-            {course.quiz.options.map((opt, i) => {
+            {course.quiz.options.map((opt: string, i: number) => {
               const isPick = quizPick === i;
               const isCorrect = i === course.quiz.correctIndex;
               const showState = quizSubmitted && (isPick || isCorrect);
