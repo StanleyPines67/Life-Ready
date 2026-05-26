@@ -39,7 +39,7 @@ export type Category = {
   title: string;
   tagline: string;
   emoji: string;
-  tint: "transport" | "cooking" | "money" | "admin" | "life" | "home" | "tech" | "style" | "career" | "nonessential";
+  tint: "transport" | "cooking" | "money" | "admin" | "life" | "home" | "tech" | "style" | "career" | "nonessential" | "housing" | "health";
   courses: Course[];
 };
 
